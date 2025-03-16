@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Product>
+
+<h1 class="text-center">Produse Disponibile</h1>
+<hr />
+
+<div class="container">
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <!-- Asigură 3 carduri pe rând -->
+        @foreach (var product in Model)
+        {
+            <div class="col d-flex">
+                <!-- Folosim d-flex pentru a alinia cardurile -->
+                <div class="card product-card flex-fill">
+                    <!-- flex-fill pentru a face toate cardurile egale -->
+                    <!-- Imaginea produsului -->
+                    <div class="product-img-container">
+                        <img src="~/Images/@product.ImageUrl" class="product-img" alt="@product.Name">
+                    </div>
+
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title text-center product-title">@product.Name</h5>
+                        <h5 class="card-text text-center"><strong>@product.Price.ToString("C")</strong></h5>
+
+                        <div class="mt-auto">
+                            <a asp-action="Details" asp-route-id="@product.Id" class="btn btn-primary w-100">Vezi Detalii</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,59 @@
+﻿@model MagazinOnline.ViewModel.ProductViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Product</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" method="post" enctype="multipart/form-data">
+            <input type="hidden" asp-for="Id" /> <!-- Stocăm ID-ul pentru a nu crea un produs nou -->
+
+            <div>
+                <label>Nume:</label>
+                <input asp-for="Name" class="form-control" />
+            </div>
+            <div>
+                <label>Descriere:</label>
+                <textarea asp-for="Description" class="form-control"></textarea>
+            </div>
+            <div>
+                <label>Preț:</label>
+                <input asp-for="Price" class="form-control" />
+            </div>
+            <div>
+                <label>Stoc:</label>
+                <input asp-for="Stock" class="form-control" />
+            </div>
+
+            <div>
+                <label>Imagine existentă:</label>
+                <br />
+                @if (!string.IsNullOrEmpty(Model.ExistingImage))
+                {
+                    <img src="~/Images/@Model.ExistingImage" width="100" height="100" />
+                }
+                <input type="hidden" asp-for="ExistingImage" /> <!-- Salvăm imaginea existentă -->
+            </div>
+
+            <div>
+                <label>Încărcați o nouă imagine:</label>
+                <input asp-for="Image" type="file" class="form-control" />
+            </div>
+
+            <button type="submit" class="btn btn-primary">Salvează</button>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

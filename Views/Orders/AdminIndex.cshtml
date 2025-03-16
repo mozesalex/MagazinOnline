@@ -1,0 +1,61 @@
+﻿@model IEnumerable<Order>
+
+@{
+    ViewData["Title"] = "Administrare Comenzi";
+}
+
+<h2 class="text-center">Toate Comenzile</h2>
+
+<table class="table table-bordered table-hover mt-4">
+    <thead class="table-dark">
+        <tr>
+            <th>ID Comandă</th>
+            <th>Utilizator</th>
+            <th>Data</th>
+            <th>Status</th>
+            <th>Schimbă Status</th>
+            <th>Total</th>
+            <th>Adresă</th>
+            <th>Acțiuni</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model)
+        {
+            <tr>
+                <td>@order.Id</td>
+                <td>@order.User?.UserName</td>
+                <td>@order.OrderDate.ToString("dd/MM/yyyy")</td>
+                <td>
+                    <span class="badge
+                        @(order.Status == "Pending" ? "bg-warning" :
+                          order.Status == "In Progress" ? "bg-primary" :
+                          order.Status == "Completed" ? "bg-success" :
+                          order.Status == "Cancelled" ? "bg-danger" : "bg-secondary")">
+                        @order.Status
+                    </span>
+                </td>
+                <td>
+                    <form asp-action="UpdateStatus" method="post" class="d-inline">
+                        <input type="hidden" name="id" value="@order.Id" />
+                        <select name="newStatus" class="form-select d-inline w-auto">
+                            <option value="Pending" selected="@(order.Status == "Pending" ? "selected" : null)">Pending</option>
+                            <option value="In Progress" selected="@(order.Status == "In Progress" ? "selected" : null)">In Progress</option>
+                            <option value="Completed" selected="@(order.Status == "Completed" ? "selected" : null)">Completed</option>
+                            <option value="Cancelled" selected="@(order.Status == "Cancelled" ? "selected" : null)">Cancelled</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary btn-sm">Actualizează</button>
+                    </form>
+                </td>
+                <td>@order.TotalAmount.ToString("C")</td>
+                <td>@order.Address</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@order.Id" class="btn btn-info btn-sm">Detalii</a>
+                    <form asp-action="Delete" asp-route-id="@order.Id" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Sigur vrei să ștergi această comandă?');">Șterge</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,120 @@
+﻿@model Product
+
+<div class="container mt-5">
+    <h2 class="fw-bold text-center mb-4">@Model.Name</h2>
+
+    <div class="row">
+        <!-- Imaginea produsului -->
+        <div class="col-md-6 text-center">
+            <img src="~/Images/@Model.ImageUrl" class="img-fluid rounded shadow" alt="@Model.Name">
+        </div>
+
+        <!-- Detalii produs -->
+        <div class="col-md-6 d-flex flex-column justify-content-center">
+            <h3 class="text-danger fw-bold">@Model.Price.ToString("C")</h3>
+            <p class="text-muted">Stoc disponibil: <strong>@Model.Stock</strong></p>
+
+            <!-- Media rating -->
+            <div class="mb-2 d-flex align-items-center">
+                <strong>Rating:</strong>
+                <span class="ms-2" style="font-size: 1.2rem; color: #FFD700;">
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        if (i <= Math.Floor(ViewBag.AverageRating))
+                        {
+                            <i class="bi bi-star-fill"></i> <!-- Stea plină -->
+                        }
+                        else if (i - ViewBag.AverageRating < 1)
+                        {
+                            <i class="bi bi-star-half"></i> <!-- Stea pe jumătate -->
+                        }
+                        else
+                        {
+                            <i class="bi bi-star"></i> <!-- Stea goală -->
+                        }
+                    }
+                </span>
+                <span class="ms-2 text-danger fw-bold">@ViewBag.AverageRating.ToString("0.00") din 5 (@ViewBag.TotalReviews recenzii)</span>
+            </div>
+
+            <!-- Formular pentru adăugare în coș -->
+            <form asp-action="AddToCart" asp-controller="Carts" method="post">
+                <input type="hidden" name="productId" value="@Model.Id" />
+
+                <!-- Selectare Cantitate -->
+                <label for="quantity" class="mt-2">Cantitate:</label>
+                <select name="quantity" class="form-select w-50">
+                    @for (int i = 1; i <= Math.Min(Model.Stock, 10); i++)
+                    {
+                        <option value="@i">@i</option>
+                    }
+                </select>
+
+                <!-- Buton Adaugă în Coș -->
+                <button type="submit" class="btn btn-danger btn-lg w-100 mt-3">Adaugă în coș</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Descriere produs -->
+    <div class="mt-4">
+        <h4>Descriere</h4>
+        <p>@Model.Description</p>
+    </div>
+
+    <!-- Secțiune recenzii -->
+    <div class="mt-5">
+        <h4>Recenzii</h4>
+
+        @if (ViewBag.Reviews != null && ViewBag.Reviews.Count > 0)
+        {
+            @foreach (var review in ViewBag.Reviews)
+            {
+                <div class="border p-3 mb-3 rounded">
+                    <div class="d-flex justify-content-between">
+                        <strong>@review.User.UserName</strong>
+                        <span class="text-muted">@review.CreatedAt.ToString("dd MMM yyyy")</span>
+                    </div>
+                    <div class="mb-1">
+                        <span style="font-size: 1.2rem; color: #FFD700;">
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                <i class="bi @(i <= review.Rating ? "bi-star-fill" : "bi-star")"></i>
+                            }
+                        </span>
+                        <span class="ms-2">(@review.Rating din 5)</span>
+                    </div>
+                    <p>@review.Comment</p>
+                </div>
+            }
+        }
+        else
+        {
+            <p>Nu există recenzii pentru acest produs.</p>
+        }
+    </div>
+
+    <!-- Formular Adăugare Recenzie -->
+    <div class="mt-4">
+        <h4>Lasă o recenzie</h4>
+        <form asp-action="AddReview" asp-controller="Reviews" method="post">
+            <input type="hidden" name="productId" value="@Model.Id" />
+
+            <label for="rating">Rating:</label>
+            <select name="rating" class="form-select w-50 mb-2">
+                @for (int i = 1; i <= 5; i++)
+                {
+                    <option value="@i">@i stele</option>
+                }
+            </select>
+
+            <label for="comment">Comentariu:</label>
+            <textarea name="comment" class="form-control mb-2" rows="3"></textarea>
+
+            <button type="submit" class="btn btn-primary">Trimite recenzia</button>
+        </form>
+    </div>
+
+    <a asp-action="Index" class="btn btn-secondary mt-3">Înapoi la produse</a>
+</div>
+

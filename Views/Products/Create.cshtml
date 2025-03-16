@@ -1,0 +1,44 @@
+﻿@model MagazinOnline.ViewModel.ProductViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create Product</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
+            <div>
+                <label>Nume:</label>
+                <input asp-for="Name" class="form-control" />
+            </div>
+            <div>
+                <label>Descriere:</label>
+                <textarea asp-for="Description" class="form-control"></textarea>
+            </div>
+            <div>
+                <label>Preț:</label>
+                <input asp-for="Price" class="form-control" />
+            </div>
+            <div>
+                <label>Stoc:</label>
+                <input asp-for="Stock" class="form-control" />
+            </div>
+            <div>
+                <label>Upload Image</label>
+                <input asp-for="Image" type="file" class="form-control" />
+            </div>
+            <br />
+            <div class="form-group">
+                <a class="btn btn-warning float-start" asp-action="Index">Back to List</a>
+                <input type="submit" value="Create" class="btn btn-primary float-end" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

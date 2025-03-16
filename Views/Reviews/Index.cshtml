@@ -1,0 +1,43 @@
+﻿@model IEnumerable<MagazinOnline.Models.Review>
+
+@{
+    ViewData["Title"] = "Lista Review-urilor";
+}
+
+<h2>Lista Review-urilor</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Utilizator</th>
+            <th>Produs</th>
+            <th>Rating</th>
+            <th>Comentariu</th>
+            <th>Acțiuni</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var review in Model)
+        {
+            <tr>
+                <td>@review.Id</td>
+                <td>@review.User.UserName</td>
+                <td>@review.Product.Name</td>
+                <td>@review.Rating</td>
+                <td>@review.Comment</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@review.Id" class="btn btn-primary btn-sm">Detalii</a>
+
+                    <form asp-action="Delete" method="post" style="display:inline;">
+                        <input type="hidden" name="id" value="@review.Id" />
+                        <button type="submit" class="btn btn-danger btn-sm"
+                                onclick="return confirm('Sigur vrei să ștergi acest review?');">
+                            Șterge
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

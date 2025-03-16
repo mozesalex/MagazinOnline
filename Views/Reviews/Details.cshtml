@@ -1,0 +1,17 @@
+﻿@model MagazinOnline.Models.Review
+
+@{
+    ViewData["Title"] = "Detalii Review";
+}
+
+<h2>Detalii Review</h2>
+
+<div>
+    <p><strong>ID Review:</strong> @Model.Id</p>
+    <p><strong>Utilizator:</strong> @Model.User.UserName</p>
+    <p><strong>Produs:</strong> @Model.Product.Name</p>
+    <p><strong>Rating:</strong> @Model.Rating</p>
+    <p><strong>Comentariu:</strong> @Model.Comment</p>
+</div>
+
+<a asp-action="Index" class="btn btn-secondary">Înapoi la listă</a>

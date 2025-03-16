@@ -1,0 +1,70 @@
+﻿@model IEnumerable<Cart>
+
+<h2>Coșul tău de cumpărături</h2>
+
+@if (!Model.Any())
+{
+    <p>Coșul tău este gol.</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>#</th>
+                <th>Imagine</th>
+                <th>Produs</th>
+                <th>Cantitate</th>
+                <th>Preț / buc</th>
+                <th>Total</th>
+                <th>Acțiuni</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int index = 1; decimal totalSum = 0;
+            }
+            @foreach (var item in Model)
+            {
+                var totalPerProduct = item.Price * item.Quantity;
+                totalSum += totalPerProduct;
+
+                <tr>
+                    <td>@index</td>
+                    <td><img src="~/Images/@item.Product.ImageUrl" class="img-thumbnail" width="80" height="80" /></td>
+                    <td>@item.Product.Name</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Price.ToString("C")</td>
+                    <td>@totalPerProduct.ToString("C")</td>
+                    <td>
+                        <form asp-action="Delete" asp-controller="Carts" method="post">
+                            <input type="hidden" name="id" value="@item.Id" />
+                            <button type="submit" class="btn btn-danger btn-sm">Șterge</button>
+                        </form>
+                    </td>
+                </tr>
+                index++;
+            }
+            <!-- Rând final pentru total -->
+            <tr class="table-warning">
+                <td colspan="5" class="text-end"><strong>Total de plată:</strong></td>
+                <td><strong>@totalSum.ToString("C")</strong></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Formular pentru plasarea comenzii -->
+    <form asp-action="PlaceOrder" asp-controller="Orders" method="post">
+        <!-- Câmp pentru introducerea adresei -->
+        <div class="mb-3">
+            <label for="address" class="form-label"><strong>Adresă pentru livrare:</strong></label>
+            <input type="text" name="address" id="address" class="form-control" placeholder="Introdu adresa ta" required>
+        </div>
+
+        <!-- Buton Plasează Comanda -->
+        <button type="submit" class="btn btn-success btn-lg w-100">Plasează Comanda</button>
+    </form>
+}
+
+<a asp-action="Index" asp-controller="Products" class="btn btn-primary mt-3">Continuă cumpărăturile</a>

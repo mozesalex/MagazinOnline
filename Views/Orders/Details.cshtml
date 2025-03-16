@@ -1,0 +1,52 @@
+﻿@model Order
+
+@{
+    ViewData["Title"] = "Detalii Comandă";
+}
+
+<h2>Detalii Comandă #@Model.Id</h2>
+<p><strong>Data:</strong> @Model.OrderDate.ToString("dd/MM/yyyy")</p>
+<p><strong>Adresă:</strong> @Model.Address</p>
+<p>
+    <strong>Status:</strong>  <span class="badge
+        @(Model.Status == "Pending" ? "bg-warning" :
+          Model.Status == "In Progress" ? "bg-primary" :
+          Model.Status == "Completed" ? "bg-success" :
+          Model.Status == "Cancelled" ? "bg-danger" : "bg-secondary")">
+        @Model.Status
+    </span>
+</p>
+<p><strong>Total:</strong> @Model.TotalAmount.ToString("C")</p>
+
+<h3>Produse Comandate</h3>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Imagine</th>
+            <th>Produs</th>
+            <th>Cantitate</th>
+            <th>Preț / buc</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var detail in Model.OrderDetails)
+        {
+            <tr>
+                <td><img src="~/Images/@detail.Product.ImageUrl" class="img-thumbnail" width="80" height="80"></td>
+                <td>@detail.Product.Name</td>
+                <td>@detail.Quantity</td>
+                <td>@detail.Price.ToString("C")</td>
+                <td>@((detail.Price * detail.Quantity).ToString("C", new System.Globalization.CultureInfo("en-US")))</td>
+            </tr>
+        }
+    </tbody>
+</table>
+@if (!User.IsInRole("Admin"))
+{
+    <a asp-action="Index" class="btn btn-secondary">Înapoi la comenzi</a>
+}
+else
+{
+    <a asp-action="AdminIndex" class="btn btn-secondary">Înapoi la comenzi</a>
+}
