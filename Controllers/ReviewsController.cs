@@ -41,7 +41,7 @@ namespace MagazinOnline.Controllers
 
             return RedirectToAction("Details", "Products", new { id = productId });
         }
-        // LISTEAZĂ TOATE REVIEW-URILE
+        // listeaza reviewurile
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
@@ -68,7 +68,7 @@ namespace MagazinOnline.Controllers
             return View(review);
         }
 
-        // ȘTERGE REVIEW
+        // sterge review
         [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

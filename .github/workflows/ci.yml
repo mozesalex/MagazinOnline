@@ -1,0 +1,86 @@
+name: CI - MagazinOnline
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  # ─────────────────────────────────────────
+  # JOB 1: Build + Unit Tests
+  # ─────────────────────────────────────────
+  build-and-test:
+    name: Build & Unit Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build (Automatic Build)
+        run: dotnet build --no-restore --configuration Release
+
+      - name: Run Unit Tests (Automatic Test Execution)
+        run: dotnet test --no-build --configuration Release --verbosity normal
+
+  # ─────────────────────────────────────────
+  # JOB 2: Static Code Analysis
+  # ─────────────────────────────────────────
+  static-analysis:
+    name: Static Code Analysis
+    runs-on: ubuntu-latest
+    needs: build-and-test
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Run Roslyn Analyzers
+        run: dotnet build --configuration Release /p:RunAnalyzers=true /p:AnalysisLevel=latest
+
+  # ─────────────────────────────────────────
+  # JOB 3: Deployment (publish artifact)
+  # ─────────────────────────────────────────
+  deploy:
+    name: Deploy - Publish Artifact
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Publish app
+        run: dotnet publish MagazinOnline/MagazinOnline.csproj --configuration Release --output ./publish
+
+      - name: Upload published artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: magazin-online-deploy
+          path: ./publish
