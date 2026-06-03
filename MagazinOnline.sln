@@ -3,7 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagazinOnline", "MagazinOnline.csproj", "{78024209-7856-4142-9D5B-CA6234B05E63}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagazinOnline", "MagazinOnline\MagazinOnline.csproj", "{78024209-7856-4142-9D5B-CA6234B05E63}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagazinOnline.Tests", "MagazinOnline.Tests\MagazinOnline.Tests.csproj", "{678D3201-49C7-4746-B2C1-2324A624AA32}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +16,10 @@ Global
 		{78024209-7856-4142-9D5B-CA6234B05E63}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78024209-7856-4142-9D5B-CA6234B05E63}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78024209-7856-4142-9D5B-CA6234B05E63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{678D3201-49C7-4746-B2C1-2324A624AA32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{678D3201-49C7-4746-B2C1-2324A624AA32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{678D3201-49C7-4746-B2C1-2324A624AA32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{678D3201-49C7-4746-B2C1-2324A624AA32}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
