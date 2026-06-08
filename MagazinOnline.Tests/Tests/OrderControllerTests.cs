@@ -17,7 +17,7 @@ namespace MagazinOnline.Tests.Tests
             var result = await controller.Details(null);
 
             Assert.IsType<NotFoundResult>(result);
-        }
+        } //dacă id-ul e null, returnează 404
 
         [Fact]
         public async Task Details_ReturnsNotFound_WhenOrderDoesNotExist()
@@ -28,7 +28,7 @@ namespace MagazinOnline.Tests.Tests
             var result = await controller.Details(999);
 
             Assert.IsType<NotFoundResult>(result);
-        }
+        }//dacă comanda nu există (id=999), returnează 404
 
         [Fact]
         public async Task Details_ReturnsViewResult_WhenOrderExists()
@@ -49,6 +49,6 @@ namespace MagazinOnline.Tests.Tests
             var result = await controller.Details(1);
 
             Assert.IsType<ViewResult>(result);
-        }
+        }// dacă comanda există, returnează un ViewResult
     }
 }

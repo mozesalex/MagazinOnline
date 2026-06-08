@@ -54,7 +54,7 @@ namespace MagazinOnline.Tests.Tests
             var result = await controller.Index();
 
             Assert.IsType<ViewResult>(result);
-        }
+        }//cu produse în bază, Index() returnează un view
 
         [Fact]
         public async Task Details_ReturnsNotFound_WhenIdIsNull()
@@ -65,7 +65,7 @@ namespace MagazinOnline.Tests.Tests
             var result = await controller.Details(null);
 
             Assert.IsType<NotFoundResult>(result);
-        }
+        }//id null retruneaza 404
 
         [Fact]
         public async Task Details_ReturnsNotFound_WhenProductDoesNotExist()
@@ -76,7 +76,7 @@ namespace MagazinOnline.Tests.Tests
             var result = await controller.Details(999);
 
             Assert.IsType<NotFoundResult>(result);
-        }
+        }//id inexistent returneaza 404
 
         [Fact]
         public async Task Details_ReturnsViewResult_WhenProductExists()
@@ -89,7 +89,7 @@ namespace MagazinOnline.Tests.Tests
             var result = await controller.Details(1);
 
             Assert.IsType<ViewResult>(result);
-        }
+        }// produs existent returneaza view corect
 
         [Fact]
         public async Task DeleteConfirmed_RemovesProduct_AndRedirects()
@@ -103,6 +103,6 @@ namespace MagazinOnline.Tests.Tests
 
             Assert.IsType<RedirectToActionResult>(result);
             Assert.Equal(0, context.Products.Count());
-        }
+        }//șterge produsul din bază și face redirect
     }
 }

@@ -36,7 +36,7 @@ namespace MagazinOnline.Tests.Tests
 
             Assert.Equal(1, context.Carts.Count());
             Assert.Equal(2, context.Carts.First().Quantity);
-        }
+        } // adaugă un produs și un item în coș, verifică că s-a salvat corect 
 
         [Fact]
         public async Task RemoveCartItem_DeletesCorrectly()
@@ -59,6 +59,6 @@ namespace MagazinOnline.Tests.Tests
             await context.SaveChangesAsync();
 
             Assert.Equal(0, context.Carts.Count());
-        }
+        }//adaugă un item în coș, îl șterge, verifică că tabelul e gol
     }
 }
